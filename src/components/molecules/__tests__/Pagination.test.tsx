@@ -1,54 +1,44 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import Pagination from "../Pagination";
-import { useRouter, useSearchParams } from "next/navigation";
+
+const mockRouter = {
+  push: jest.fn(),
+};
 
 jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  useSearchParams: jest.fn(),
+  useRouter: () => mockRouter,
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 describe("Pagination", () => {
-  const mockRouter = {
-    push: jest.fn(),
-  };
-
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    mockRouter.push.mockClear();
   });
 
   it('disables the "Previous" button on the first page', () => {
-    (useSearchParams as jest.Mock).mockReturnValue(
-      new URLSearchParams("page=1")
-    );
-    render(<Pagination />);
-    expect(screen.getByText("Previous")).toBeDisabled();
+    render(<Pagination total={100} pageSize={10} currentPage={1} />);
+    const previousButton = screen.getByRole("button", { name: /previous/i });
+    expect(previousButton).toBeDisabled();
   });
 
   it('enables the "Previous" button on subsequent pages', () => {
-    (useSearchParams as jest.Mock).mockReturnValue(
-      new URLSearchParams("page=2")
-    );
-    render(<Pagination />);
-    expect(screen.getByText("Previous")).not.toBeDisabled();
+    render(<Pagination total={100} pageSize={10} currentPage={2} />);
+    const previousButton = screen.getByRole("button", { name: /previous/i });
+    expect(previousButton).not.toBeDisabled();
   });
 
   it('calls router.push with the correct page when "Next" is clicked', () => {
-    (useSearchParams as jest.Mock).mockReturnValue(
-      new URLSearchParams("page=1")
-    );
-    render(<Pagination />);
-    fireEvent.click(screen.getByText("Next"));
+    render(<Pagination total={100} pageSize={10} currentPage={1} />);
+    const nextButton = screen.getByRole("button", { name: /next/i });
+    fireEvent.click(nextButton);
     expect(mockRouter.push).toHaveBeenCalledWith("?page=2");
   });
 
   it('calls router.push with the correct page when "Previous" is clicked', () => {
-    (useSearchParams as jest.Mock).mockReturnValue(
-      new URLSearchParams("page=3")
-    );
-    render(<Pagination />);
-    fireEvent.click(screen.getByText("Previous"));
+    render(<Pagination total={100} pageSize={10} currentPage={3} />);
+    const previousButton = screen.getByRole("button", { name: /previous/i });
+    fireEvent.click(previousButton);
     expect(mockRouter.push).toHaveBeenCalledWith("?page=2");
   });
 });

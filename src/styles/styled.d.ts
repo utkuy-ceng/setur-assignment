@@ -1,9 +1,11 @@
 import "styled-components";
-import { lightTheme } from "./theme";
-
-type Theme = typeof lightTheme;
 
 declare module "styled-components" {
-  // eslint-disable-next-line @typescript-eslint/no-empty-interface
-  export interface DefaultTheme extends Theme {}
+  export interface DefaultTheme {
+    background: string;
+    text: string;
+    primary: string;
+    border: string;
+    cardBg: string;
+  }
 }

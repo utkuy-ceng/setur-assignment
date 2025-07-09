@@ -21,7 +21,7 @@ module.exports = {
     ],
   },
   transformIgnorePatterns: [
-    "/node_modules/",
+    "/node_modules/(?!(next-intl)/)",
     "^.+\\.module\\.(css|sass|scss)$",
   ],
   testMatch: [

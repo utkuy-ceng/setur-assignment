@@ -1,33 +1,26 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import FilterByPriceRange from "../FilterByPriceRange";
-import { useRouter, useSearchParams } from "next/navigation";
+
+const mockRouter = {
+  push: jest.fn(),
+};
 
 jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  useSearchParams: jest.fn(),
+  useRouter: () => mockRouter,
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 describe("FilterByPriceRange", () => {
-  const mockRouter = {
-    push: jest.fn(),
-  };
-
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
-    (useSearchParams as jest.Mock).mockReturnValue(new URLSearchParams());
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    mockRouter.push.mockClear();
   });
 
   it("updates URL with min and max price when Apply is clicked", () => {
     render(<FilterByPriceRange />);
-    const minInput = screen.getByPlaceholderText("Min");
-    const maxInput = screen.getByPlaceholderText("Max");
-    const applyButton = screen.getByText("Apply");
+    const minInput = screen.getByPlaceholderText("min");
+    const maxInput = screen.getByPlaceholderText("max");
+    const applyButton = screen.getByText("apply");
 
     fireEvent.change(minInput, { target: { value: "10" } });
     fireEvent.change(maxInput, { target: { value: "50" } });
@@ -38,8 +31,8 @@ describe("FilterByPriceRange", () => {
 
   it("only updates min price if max is empty", () => {
     render(<FilterByPriceRange />);
-    const minInput = screen.getByPlaceholderText("Min");
-    const applyButton = screen.getByText("Apply");
+    const minInput = screen.getByPlaceholderText("min");
+    const applyButton = screen.getByText("apply");
 
     fireEvent.change(minInput, { target: { value: "20" } });
     fireEvent.click(applyButton);
@@ -48,13 +41,13 @@ describe("FilterByPriceRange", () => {
   });
 
   it("removes price params if inputs are cleared", () => {
-    (useSearchParams as jest.Mock).mockReturnValue(
-      new URLSearchParams("minPrice=10&maxPrice=50")
-    );
+    jest
+      .spyOn(require("next/navigation"), "useSearchParams")
+      .mockReturnValue(new URLSearchParams("minPrice=10&maxPrice=50"));
     render(<FilterByPriceRange />);
-    const minInput = screen.getByPlaceholderText("Min");
-    const maxInput = screen.getByPlaceholderText("Max");
-    const applyButton = screen.getByText("Apply");
+    const minInput = screen.getByPlaceholderText("min");
+    const maxInput = screen.getByPlaceholderText("max");
+    const applyButton = screen.getByText("apply");
 
     fireEvent.change(minInput, { target: { value: "" } });
     fireEvent.change(maxInput, { target: { value: "" } });

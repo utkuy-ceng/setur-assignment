@@ -1,37 +1,29 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import FilterByCategory from "../FilterByCategory";
-import { useRouter, useSearchParams } from "next/navigation";
+
+const mockRouter = {
+  push: jest.fn(),
+};
 
 jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  useSearchParams: jest.fn(),
+  useRouter: () => mockRouter,
+  useSearchParams: () => new URLSearchParams(),
 }));
 
-global.fetch = jest.fn();
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve(["electronics", "jewelery"]),
+  })
+) as jest.Mock;
 
 describe("FilterByCategory", () => {
-  const mockRouter = {
-    push: jest.fn(),
-  };
-
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
-    (useSearchParams as jest.Mock).mockReturnValue(new URLSearchParams());
-    (fetch as jest.Mock).mockClear();
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    mockRouter.push.mockClear();
+    (global.fetch as jest.Mock).mockClear();
   });
 
   it("fetches categories and updates the URL on selection", async () => {
-    const mockCategories = ["electronics", "jewelery"];
-    (fetch as jest.Mock).mockResolvedValueOnce({
-      json: async () => mockCategories,
-    });
-
     render(<FilterByCategory />);
 
     await waitFor(() => {
@@ -39,7 +31,7 @@ describe("FilterByCategory", () => {
       expect(screen.getByText("jewelery")).toBeInTheDocument();
     });
 
-    const select = screen.getByLabelText("Filter by Category");
+    const select = screen.getByLabelText("filterByCategory");
     fireEvent.change(select, { target: { value: "electronics" } });
 
     expect(mockRouter.push).toHaveBeenCalledWith("?category=electronics");

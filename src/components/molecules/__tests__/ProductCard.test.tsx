@@ -1,8 +1,9 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { ThemeProvider } from "styled-components";
 import ProductCard from "../ProductCard";
-import { Product } from "@/types";
+import { Product } from "../../../types";
+import { lightTheme } from "../../../styles/theme";
 
 const mockProduct: Product = {
   id: 1,
@@ -13,17 +14,21 @@ const mockProduct: Product = {
   image: "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
   rating: {
     rate: 4.5,
-    count: 150,
+    count: 120,
   },
 };
 
 describe("ProductCard", () => {
   it("renders product details correctly", () => {
-    render(<ProductCard product={mockProduct} />);
+    render(
+      <ThemeProvider theme={lightTheme}>
+        <ProductCard product={mockProduct} locale="en" />
+      </ThemeProvider>
+    );
 
     expect(screen.getByText("Test Product")).toBeInTheDocument();
     expect(screen.getByText("$99.99")).toBeInTheDocument();
-    expect(screen.getByText("⭐️ 4.5 (150)")).toBeInTheDocument();
-    expect(screen.getByRole("link")).toHaveAttribute("href", "/product/1");
+    expect(screen.getByText("⭐️ 4.5 (120)")).toBeInTheDocument();
+    expect(screen.getByRole("link")).toHaveAttribute("href", "/en/product/1");
   });
 });

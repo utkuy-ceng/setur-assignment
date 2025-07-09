@@ -1,32 +1,25 @@
 import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import Search from "../Search";
-import { useRouter, useSearchParams } from "next/navigation";
+
+const mockRouter = {
+  push: jest.fn(),
+};
 
 jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-  useSearchParams: jest.fn(),
+  useRouter: () => mockRouter,
+  useSearchParams: () => new URLSearchParams(),
 }));
 
 describe("Search", () => {
-  const mockRouter = {
-    push: jest.fn(),
-  };
-
   beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
-    (useSearchParams as jest.Mock).mockReturnValue(new URLSearchParams());
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
+    mockRouter.push.mockClear();
   });
 
   it("updates the URL with the search query when the search button is clicked", () => {
     render(<Search />);
-    const input = screen.getByPlaceholderText("Search...");
-    const button = screen.getByText("Search");
+    const input = screen.getByPlaceholderText(/search/i);
+    const button = screen.getByRole("button", { name: /search/i });
 
     fireEvent.change(input, { target: { value: "test query" } });
     fireEvent.click(button);
@@ -36,7 +29,7 @@ describe("Search", () => {
 
   it("updates the URL when Enter is pressed in the input", () => {
     render(<Search />);
-    const input = screen.getByPlaceholderText("Search...");
+    const input = screen.getByPlaceholderText(/search/i);
 
     fireEvent.change(input, { target: { value: "enter search" } });
     fireEvent.keyDown(input, { key: "Enter", code: "Enter" });
@@ -45,12 +38,13 @@ describe("Search", () => {
   });
 
   it("removes the query parameter if the search is cleared", () => {
-    (useSearchParams as jest.Mock).mockReturnValue(
-      new URLSearchParams("q=test")
-    );
+    jest
+      .spyOn(require("next/navigation"), "useSearchParams")
+      .mockReturnValue(new URLSearchParams("q=test"));
+
     render(<Search />);
-    const input = screen.getByPlaceholderText("Search...");
-    const button = screen.getByText("Search");
+    const input = screen.getByPlaceholderText(/search/i);
+    const button = screen.getByRole("button", { name: /search/i });
 
     fireEvent.change(input, { target: { value: "" } });
     fireEvent.click(button);

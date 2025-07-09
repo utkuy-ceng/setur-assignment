@@ -1,27 +1,25 @@
 "use client";
 
-import { useContext } from "react";
+import React from "react";
 import styled from "styled-components";
-import { ThemeContext } from "@/contexts/ThemeContext";
 import { useTranslations } from "next-intl";
+import { useTheme } from "../../contexts/ThemeContext";
 
-const ToggleButton = styled.button`
-  background: ${({ theme }) => theme.primary};
-  border: 2px solid ${({ theme }) => theme.toggleBorder};
-  color: ${({ theme }) => theme.buttonText};
-  border-radius: 30px;
+const Button = styled.button`
+  background: none;
+  border: none;
+  color: ${({ theme }) => theme.text};
   cursor: pointer;
-  font-size: 0.8rem;
-  padding: 0.6rem;
+  font-size: 1.5rem;
 `;
 
 export default function ThemeToggleButton() {
-  const { theme, toggleTheme } = useContext(ThemeContext);
+  const { theme, toggleTheme } = useTheme();
   const t = useTranslations("ThemeToggleButton");
 
   return (
-    <ToggleButton onClick={toggleTheme}>
-      {theme === "light" ? t("switchToDark") : t("switchToLight")}
-    </ToggleButton>
+    <Button onClick={toggleTheme}>
+      {theme === "light" ? t("dark") : t("light")}
+    </Button>
   );
 }

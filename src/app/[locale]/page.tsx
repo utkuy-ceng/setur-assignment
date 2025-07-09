@@ -1,3 +1,4 @@
+import React from "react";
 import ProductList from "@/components/organisms/ProductList";
 import Pagination from "@/components/molecules/Pagination";
 import FilterBar from "@/components/organisms/FilterBar";
@@ -13,14 +14,13 @@ const PAGE_SIZE = 10;
 
 interface SearchParams {
   page?: string;
-  sort?: "asc" | "desc";
+  q?: string;
   category?: string;
   minPrice?: string;
   maxPrice?: string;
-  q?: string;
+  sort?: string;
 }
 
-// This function will be updated to handle filtering and sorting
 async function getProducts(
   page: number,
   searchParams: SearchParams = {}
@@ -49,32 +49,36 @@ async function getProducts(
   if (minPrice) {
     products = products.filter((p) => p.price >= parseFloat(minPrice));
   }
+
   if (maxPrice) {
     products = products.filter((p) => p.price <= parseFloat(maxPrice));
   }
+  const total = products.length;
 
-  if (sort === "asc") {
-    products.sort((a, b) => a.price - b.price);
-  } else if (sort === "desc") {
-    products.sort((a, b) => b.price - a.price);
+  if (sort) {
+    products.sort((a, b) => {
+      if (sort === "asc") {
+        return a.price - b.price;
+      } else {
+        return b.price - a.price;
+      }
+    });
   }
 
-  const total = products.length;
   const paginatedProducts = products.slice(offset, offset + PAGE_SIZE);
 
   return { products: paginatedProducts, total };
 }
 
 interface HomeProps {
-  params: Promise<{ locale: string }>;
-  searchParams: Promise<SearchParams>;
+  params: { locale: string };
+  searchParams: SearchParams;
 }
 
 export default async function Home({ params, searchParams }: HomeProps) {
-  const { locale } = await params;
-  const resolvedSearchParams = await searchParams;
-  const page = parseInt(resolvedSearchParams?.page || "1", 10);
-  const { products, total } = await getProducts(page, resolvedSearchParams);
+  const locale = params.locale;
+  const page = parseInt(searchParams?.page || "1", 10);
+  const { products, total } = await getProducts(page, searchParams);
 
   return (
     <main>
@@ -85,7 +89,7 @@ export default async function Home({ params, searchParams }: HomeProps) {
         <FilterByPriceRange />
       </FilterBar>
       <ProductList products={products} locale={locale} />
-      <Pagination total={total} pageSize={PAGE_SIZE} />
+      <Pagination total={total} pageSize={PAGE_SIZE} currentPage={page} />
     </main>
   );
 }

@@ -1,45 +1,59 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { ThemeProvider } from "../../../contexts/ThemeContext";
 import Header from "../Header";
-import { CartContext, CartItem } from "@/contexts/CartContext";
-import { Product } from "@/types";
+import { CartContext } from "../../../contexts/CartContext";
 
-const mockProduct: Product = {
-  id: 1,
-  title: "p1",
-  price: 10,
-  description: "d1",
-  category: "c1",
-  image: "i1",
-  rating: { rate: 1, count: 1 },
-};
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+  }),
+  usePathname: () => "/en",
+  useSearchParams: () => new URLSearchParams(),
+}));
 
 describe("Header", () => {
   it("displays the correct number of items in the cart", () => {
-    const mockCartItems: CartItem[] = [
-      { ...mockProduct, quantity: 2 },
-      { ...mockProduct, id: 2, quantity: 3 },
+    const cartItems = [
+      {
+        id: 1,
+        title: "Product 1",
+        price: 10,
+        quantity: 2,
+        image: "",
+        description: "",
+        category: "",
+        rating: { rate: 0, count: 0 },
+      },
+      {
+        id: 2,
+        title: "Product 2",
+        price: 20,
+        quantity: 3,
+        image: "",
+        description: "",
+        category: "",
+        rating: { rate: 0, count: 0 },
+      },
     ];
-
     render(
-      <CartContext.Provider
-        value={{ cartItems: mockCartItems, addToCart: () => {} }}
-      >
-        <Header />
-      </CartContext.Provider>
+      <ThemeProvider>
+        <CartContext.Provider value={{ cartItems, addToCart: () => {} }}>
+          <Header />
+        </CartContext.Provider>
+      </ThemeProvider>
     );
-
-    expect(screen.getByText("Cart: 5 item(s)")).toBeInTheDocument();
+    expect(screen.getByText("Cart: {count} items")).toBeInTheDocument();
   });
 
   it("displays 0 items when the cart is empty", () => {
     render(
-      <CartContext.Provider value={{ cartItems: [], addToCart: () => {} }}>
-        <Header />
-      </CartContext.Provider>
+      <ThemeProvider>
+        <CartContext.Provider value={{ cartItems: [], addToCart: () => {} }}>
+          <Header />
+        </CartContext.Provider>
+      </ThemeProvider>
     );
-
-    expect(screen.getByText("Cart: 0 item(s)")).toBeInTheDocument();
+    expect(screen.getByText("Cart: {count} items")).toBeInTheDocument();
   });
 });

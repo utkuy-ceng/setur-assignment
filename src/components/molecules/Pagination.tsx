@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import React from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
 
@@ -8,39 +9,42 @@ const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem 0;
-  gap: 1rem;
+  margin-top: 2rem;
 `;
 
-const PageButton = styled.button`
+const Button = styled.button`
+  background-color: ${({ theme }) => theme.primary};
+  color: white;
+  border: none;
   padding: 0.5rem 1rem;
-  border: 1px solid ${({ theme }) => theme.border};
-  background-color: ${({ theme }) => theme.cardBg};
-  color: ${({ theme }) => theme.text};
+  margin: 0 0.5rem;
   cursor: pointer;
   border-radius: 4px;
-  transition: background-color 0.2s;
-
-  &:hover:not(:disabled) {
-    background-color: ${({ theme }) => theme.background};
-  }
-
   &:disabled {
+    background-color: #ccc;
     cursor: not-allowed;
-    opacity: 0.5;
   }
+`;
+
+const PageInfo = styled.span`
+  margin: 0 1rem;
 `;
 
 interface PaginationProps {
   total: number;
   pageSize: number;
+  currentPage: number;
 }
 
-export default function Pagination({ total, pageSize }: PaginationProps) {
-  const t = useTranslations("Pagination");
+export default function Pagination({
+  total,
+  pageSize,
+  currentPage,
+}: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const page = parseInt(searchParams.get("page") || "1", 10);
+  const t = useTranslations("Pagination");
+
   const totalPages = Math.ceil(total / pageSize);
 
   const handlePageChange = (newPage: number) => {
@@ -51,19 +55,21 @@ export default function Pagination({ total, pageSize }: PaginationProps) {
 
   return (
     <PaginationWrapper>
-      <PageButton
-        onClick={() => handlePageChange(page - 1)}
-        disabled={page <= 1}
+      <Button
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
       >
         {t("previous")}
-      </PageButton>
-      <span>{t("page", { page, totalPages })}</span>
-      <PageButton
-        onClick={() => handlePageChange(page + 1)}
-        disabled={page >= totalPages}
+      </Button>
+      <PageInfo>
+        {currentPage} / {totalPages}
+      </PageInfo>
+      <Button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
       >
         {t("next")}
-      </PageButton>
+      </Button>
     </PaginationWrapper>
   );
 }

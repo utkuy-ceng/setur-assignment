@@ -1,23 +1,15 @@
 export const lightTheme = {
-  body: "#FFF",
-  text: "#363537",
-  toggleBorder: "#FFF",
-  background: "#F9F9F9",
-  primary: "#333",
-  secondary: "#6C757D",
-  border: "#E0E0E0",
-  cardBg: "#FFF",
-  buttonText: "#FFF",
+  background: "#ffffff",
+  text: "#000000",
+  primary: "#0070f3",
+  border: "#eaeaea",
+  cardBg: "#fafafa",
 };
 
 export const darkTheme = {
-  body: "#363537",
-  text: "#FAFAFA",
-  toggleBorder: "#6B8096",
-  background: "#2B2B2B",
-  primary: "#FAFAFA",
-  secondary: "#B0B0B0",
-  border: "#444",
-  cardBg: "#424242",
-  buttonText: "#363537",
+  background: "#000000",
+  text: "#ffffff",
+  primary: "#0070f3",
+  border: "#333333",
+  cardBg: "#1a1a1a",
 };
