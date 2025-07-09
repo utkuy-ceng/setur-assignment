@@ -1,0 +1,79 @@
+"use client";
+
+import { useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import styled from "styled-components";
+
+const PriceRangeWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Label = styled.label`
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+`;
+
+const InputsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const Input = styled.input`
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 80px;
+`;
+
+const ApplyButton = styled.button`
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #333;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+`;
+
+export default function FilterByPriceRange() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
+  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
+
+  const handleApply = () => {
+    const params = new URLSearchParams(searchParams);
+    if (minPrice) params.set("minPrice", minPrice);
+    else params.delete("minPrice");
+
+    if (maxPrice) params.set("maxPrice", maxPrice);
+    else params.delete("maxPrice");
+
+    router.push(`?${params.toString()}`);
+  };
+
+  return (
+    <PriceRangeWrapper>
+      <Label>Filter by Price</Label>
+      <InputsWrapper>
+        <Input
+          type="number"
+          placeholder="Min"
+          value={minPrice}
+          onChange={(e) => setMinPrice(e.target.value)}
+        />
+        <span>-</span>
+        <Input
+          type="number"
+          placeholder="Max"
+          value={maxPrice}
+          onChange={(e) => setMaxPrice(e.target.value)}
+        />
+        <ApplyButton onClick={handleApply}>Apply</ApplyButton>
+      </InputsWrapper>
+    </PriceRangeWrapper>
+  );
+}
