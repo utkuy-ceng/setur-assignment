@@ -4,21 +4,36 @@ import { useContext } from "react";
 import Link from "next/link";
 import styled from "styled-components";
 import { CartContext } from "@/contexts/CartContext";
+import ThemeToggleButton from "../atoms/ThemeToggleButton";
 
 const HeaderWrapper = styled.header`
   padding: 1rem 1.5rem;
-  background-color: #fff;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: ${({ theme }) => theme.cardBg};
+  border-bottom: 1px solid ${({ theme }) => theme.border};
+  color: ${({ theme }) => theme.text};
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: background-color 0.5s linear, color 0.5s linear;
 `;
 
 const Logo = styled(Link)`
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none;
-  color: #333;
+  color: ${({ theme }) => theme.text};
+`;
+
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 `;
 
 const CartInfo = styled.div`
@@ -32,8 +47,13 @@ export default function Header() {
 
   return (
     <HeaderWrapper>
-      <Logo href="/">SeturStore</Logo>
-      <CartInfo>Cart: {totalItems} item(s)</CartInfo>
+      <LeftSection>
+        <Logo href="/">SeturStore</Logo>
+        <ThemeToggleButton />
+      </LeftSection>
+      <RightSection>
+        <CartInfo>Cart: {totalItems} item(s)</CartInfo>
+      </RightSection>
     </HeaderWrapper>
   );
 }

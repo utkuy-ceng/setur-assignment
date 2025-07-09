@@ -5,12 +5,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 const CardWrapper = styled.div`
-  border: 1px solid #e0e0e0;
+  border: 1px solid ${({ theme }) => theme.border};
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
   transition: box-shadow 0.3s ease, transform 0.3s ease;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.cardBg};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -52,12 +52,12 @@ const Price = styled.p`
   font-size: 1.2rem;
   font-weight: bold;
   margin: 0.5rem 0;
-  color: #333;
+  color: ${({ theme }) => theme.text};
 `;
 
 const Rating = styled.p`
   font-size: 0.9rem;
-  color: #666;
+  color: ${({ theme }) => theme.secondary};
   margin-bottom: 1rem;
 `;
 

@@ -16,8 +16,10 @@ const Label = styled.label`
 
 const Select = styled.select`
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.border};
   border-radius: 4px;
+  background-color: ${({ theme }) => theme.cardBg};
+  color: ${({ theme }) => theme.text};
 `;
 
 export default function SortByPrice() {

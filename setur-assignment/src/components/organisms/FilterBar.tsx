@@ -7,9 +7,10 @@ const FilterBarWrapper = styled.div`
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 1rem 1.5rem;
-  background-color: #f9f9f9;
-  border-bottom: 1px solid #e0e0e0;
+  background-color: ${({ theme }) => theme.background};
+  border-bottom: 1px solid ${({ theme }) => theme.border};
   align-items: flex-end;
+  transition: background-color 0.5s linear, border-bottom 0.5s linear;
 `;
 
 export default function FilterBar({ children }: { children: React.ReactNode }) {

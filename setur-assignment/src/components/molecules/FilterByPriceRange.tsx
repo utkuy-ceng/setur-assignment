@@ -23,16 +23,18 @@ const InputsWrapper = styled.div`
 
 const Input = styled.input`
   padding: 0.5rem;
-  border: 1px solid #ccc;
+  border: 1px solid ${({ theme }) => theme.border};
   border-radius: 4px;
   width: 80px;
+  background-color: ${({ theme }) => theme.cardBg};
+  color: ${({ theme }) => theme.text};
 `;
 
 const ApplyButton = styled.button`
   padding: 0.5rem 1rem;
   border: none;
-  background-color: #333;
-  color: white;
+  background-color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.buttonText};
   cursor: pointer;
   border-radius: 4px;
   margin-left: 0.5rem;

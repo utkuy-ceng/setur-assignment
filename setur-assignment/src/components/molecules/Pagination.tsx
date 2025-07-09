@@ -13,14 +13,15 @@ const PaginationWrapper = styled.div`
 
 const PageButton = styled.button`
   padding: 0.5rem 1rem;
-  border: 1px solid #ccc;
-  background-color: #fff;
+  border: 1px solid ${({ theme }) => theme.border};
+  background-color: ${({ theme }) => theme.cardBg};
+  color: ${({ theme }) => theme.text};
   cursor: pointer;
   border-radius: 4px;
   transition: background-color 0.2s;
 
-  &:hover {
-    background-color: #f0f0f0;
+  &:hover:not(:disabled) {
+    background-color: ${({ theme }) => theme.background};
   }
 
   &:disabled {

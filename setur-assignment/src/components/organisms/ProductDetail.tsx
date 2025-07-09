@@ -23,7 +23,7 @@ const ImageWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.cardBg};
   padding: 2rem;
   border-radius: 8px;
 `;
@@ -56,8 +56,8 @@ const Rating = styled.p`
 const AddToCartButton = styled.button`
   padding: 0.8rem 1.5rem;
   font-size: 1rem;
-  background-color: #333;
-  color: white;
+  background-color: ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.buttonText};
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -65,7 +65,7 @@ const AddToCartButton = styled.button`
   max-width: 200px;
 
   &:hover {
-    background-color: #555;
+    background-color: ${({ theme }) => theme.secondary};
   }
 `;
 
