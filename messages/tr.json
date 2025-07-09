@@ -29,7 +29,7 @@
     "addToCart": "Sepete Ekle"
   },
   "ThemeToggleButton": {
-    "switchToDark": "Karanlık Moda Geç",
-    "switchToLight": "Aydınlık Moda Geç"
+    "dark": "Karanlık Mod",
+    "light": "Aydınlık Mod"
   }
 }

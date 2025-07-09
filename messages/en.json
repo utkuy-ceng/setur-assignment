@@ -29,7 +29,7 @@
     "addToCart": "Add to Cart"
   },
   "ThemeToggleButton": {
-    "switchToDark": "Switch to Dark Mode",
-    "switchToLight": "Switch to Light Mode"
+    "dark": "Dark Mode",
+    "light": "Light Mode"
   }
 }

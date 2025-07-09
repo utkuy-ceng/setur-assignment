@@ -1,13 +1,15 @@
 import { getRequestConfig } from "next-intl/server";
+import { notFound } from "next/navigation";
 
 const locales = ["en", "tr"];
 
 export default getRequestConfig(async ({ locale }) => {
-  // Validate and use the locale directly
-  const validLocale = locale && locales.includes(locale) ? locale : "en";
+  if (!locales.includes(locale)) {
+    notFound();
+  }
 
   return {
-    locale: validLocale,
-    messages: (await import(`./messages/${validLocale}.json`)).default,
+    locale,
+    messages: (await import(`./messages/${locale}.json`)).default,
   };
 });
