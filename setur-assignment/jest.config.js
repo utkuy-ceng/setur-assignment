@@ -1,4 +1,5 @@
 module.exports = {
+  rootDir: ".",
   collectCoverage: true,
   collectCoverageFrom: [
     "src/**/*.{ts,tsx}",
@@ -22,5 +23,9 @@ module.exports = {
   transformIgnorePatterns: [
     "/node_modules/",
     "^.+\\.module\\.(css|sass|scss)$",
+  ],
+  testMatch: [
+    "<rootDir>/src/**/__tests__/**/*.test.{ts,tsx}",
+    "<rootDir>/src/**/?(*.)+(spec|test).{ts,tsx}",
   ],
 };
