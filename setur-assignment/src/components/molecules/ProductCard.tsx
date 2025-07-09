@@ -39,7 +39,8 @@ const Title = styled.h3`
   font-size: 1rem;
   font-weight: 500;
   margin: 0.5rem 0;
-  height: 3rem;
+  line-height: 1.5rem;
+  height: 3rem; /* 1.5rem * 2 lines */
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
