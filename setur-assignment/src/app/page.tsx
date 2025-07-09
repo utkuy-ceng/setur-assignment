@@ -9,10 +9,19 @@ import { Product } from "@/types";
 
 const PAGE_SIZE = 10;
 
+interface SearchParams {
+  page?: string;
+  sort?: "asc" | "desc";
+  category?: string;
+  minPrice?: string;
+  maxPrice?: string;
+  q?: string;
+}
+
 // This function will be updated to handle filtering and sorting
 async function getProducts(
   page: number,
-  searchParams: HomeProps["searchParams"] = {}
+  searchParams: SearchParams = {}
 ): Promise<Product[]> {
   const offset = (page - 1) * PAGE_SIZE;
   const res = await fetch(`https://fakestoreapi.com/products`);
@@ -48,19 +57,13 @@ async function getProducts(
 }
 
 interface HomeProps {
-  searchParams?: {
-    page?: string;
-    sort?: "asc" | "desc";
-    category?: string;
-    minPrice?: string;
-    maxPrice?: string;
-    q?: string;
-  };
+  searchParams?: Promise<SearchParams>;
 }
 
 export default async function Home({ searchParams }: HomeProps) {
-  const page = parseInt(searchParams?.page || "1", 10);
-  const products = await getProducts(page, searchParams);
+  const resolvedSearchParams = (await searchParams) || {};
+  const page = parseInt(resolvedSearchParams?.page || "1", 10);
+  const products = await getProducts(page, resolvedSearchParams);
 
   return (
     <main>
