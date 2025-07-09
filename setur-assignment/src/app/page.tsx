@@ -22,7 +22,7 @@ interface SearchParams {
 async function getProducts(
   page: number,
   searchParams: SearchParams = {}
-): Promise<Product[]> {
+): Promise<{ products: Product[]; total: number }> {
   const offset = (page - 1) * PAGE_SIZE;
   const res = await fetch(`https://fakestoreapi.com/products`);
   if (!res.ok) throw new Error("Failed to fetch products");
@@ -53,7 +53,10 @@ async function getProducts(
     products.sort((a, b) => b.price - a.price);
   }
 
-  return products.slice(offset, offset + PAGE_SIZE);
+  const total = products.length;
+  const paginatedProducts = products.slice(offset, offset + PAGE_SIZE);
+
+  return { products: paginatedProducts, total };
 }
 
 interface HomeProps {
@@ -63,7 +66,7 @@ interface HomeProps {
 export default async function Home({ searchParams }: HomeProps) {
   const resolvedSearchParams = (await searchParams) || {};
   const page = parseInt(resolvedSearchParams?.page || "1", 10);
-  const products = await getProducts(page, resolvedSearchParams);
+  const { products, total } = await getProducts(page, resolvedSearchParams);
 
   return (
     <main>
@@ -74,7 +77,7 @@ export default async function Home({ searchParams }: HomeProps) {
         <FilterByPriceRange />
       </FilterBar>
       <ProductList products={products} />
-      <Pagination />
+      <Pagination total={total} pageSize={PAGE_SIZE} />
     </main>
   );
 }

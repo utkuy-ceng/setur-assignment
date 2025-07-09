@@ -29,10 +29,16 @@ const PageButton = styled.button`
   }
 `;
 
-export default function Pagination() {
+interface PaginationProps {
+  total: number;
+  pageSize: number;
+}
+
+export default function Pagination({ total, pageSize }: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
+  const totalPages = Math.ceil(total / pageSize);
 
   const handlePageChange = (newPage: number) => {
     const params = new URLSearchParams(searchParams);
@@ -48,8 +54,15 @@ export default function Pagination() {
       >
         Previous
       </PageButton>
-      <span>Page {page}</span>
-      <PageButton onClick={() => handlePageChange(page + 1)}>Next</PageButton>
+      <span>
+        Page {page} of {totalPages}
+      </span>
+      <PageButton
+        onClick={() => handlePageChange(page + 1)}
+        disabled={page >= totalPages}
+      >
+        Next
+      </PageButton>
     </PaginationWrapper>
   );
 }
