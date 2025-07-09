@@ -13,18 +13,17 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params,
-}: Readonly<{
+  params: { locale },
+}: {
   children: React.ReactNode;
   params: { locale: string };
-}>) {
-  const { locale } = await params;
-  const messages = await getMessages({ locale });
+}) {
+  const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           <StyledComponentsRegistry>
             <CartProvider>
               <Header />

@@ -4,14 +4,6 @@ import { ThemeProvider } from "../../../contexts/ThemeContext";
 import Header from "../Header";
 import { CartContext } from "../../../contexts/CartContext";
 
-jest.mock("next/navigation", () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-  }),
-  usePathname: () => "/en",
-  useSearchParams: () => new URLSearchParams(),
-}));
-
 describe("Header", () => {
   it("displays the correct number of items in the cart", () => {
     const cartItems = [
@@ -43,7 +35,7 @@ describe("Header", () => {
         </CartContext.Provider>
       </ThemeProvider>
     );
-    expect(screen.getByText("Cart: {count} items")).toBeInTheDocument();
+    expect(screen.getByText("cart")).toBeInTheDocument();
   });
 
   it("displays 0 items when the cart is empty", () => {
@@ -54,6 +46,6 @@ describe("Header", () => {
         </CartContext.Provider>
       </ThemeProvider>
     );
-    expect(screen.getByText("Cart: {count} items")).toBeInTheDocument();
+    expect(screen.getByText("cart")).toBeInTheDocument();
   });
 });

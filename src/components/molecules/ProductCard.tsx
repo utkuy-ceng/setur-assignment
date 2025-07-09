@@ -1,7 +1,6 @@
 "use client";
 
 import styled from "styled-components";
-import Image from "next/image";
 import Link from "next/link";
 
 const CardWrapper = styled.div`
@@ -29,7 +28,7 @@ const ProductImageContainer = styled.div`
   margin-bottom: 1rem;
 `;
 
-const ProductImage = styled(Image)`
+const ProductImage = styled.img`
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
