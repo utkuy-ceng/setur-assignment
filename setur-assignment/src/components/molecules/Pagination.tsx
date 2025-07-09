@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
+import { useTranslations } from "next-intl";
 
 const PaginationWrapper = styled.div`
   display: flex;
@@ -36,6 +37,7 @@ interface PaginationProps {
 }
 
 export default function Pagination({ total, pageSize }: PaginationProps) {
+  const t = useTranslations("Pagination");
   const router = useRouter();
   const searchParams = useSearchParams();
   const page = parseInt(searchParams.get("page") || "1", 10);
@@ -53,16 +55,14 @@ export default function Pagination({ total, pageSize }: PaginationProps) {
         onClick={() => handlePageChange(page - 1)}
         disabled={page <= 1}
       >
-        Previous
+        {t("previous")}
       </PageButton>
-      <span>
-        Page {page} of {totalPages}
-      </span>
+      <span>{t("page", { page, totalPages })}</span>
       <PageButton
         onClick={() => handlePageChange(page + 1)}
         disabled={page >= totalPages}
       >
-        Next
+        {t("next")}
       </PageButton>
     </PaginationWrapper>
   );

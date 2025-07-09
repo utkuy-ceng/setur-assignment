@@ -22,11 +22,7 @@ export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {
     if (localTheme) {
       setTheme(localTheme);
     } else {
-      // Set theme based on user's system preference
-      const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
-      ).matches;
-      setTheme(prefersDark ? "dark" : "light");
+      setTheme("light");
     }
   }, []);
 

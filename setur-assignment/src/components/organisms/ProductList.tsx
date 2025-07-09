@@ -4,6 +4,7 @@ import { Product } from "@/types";
 import ProductCard from "@/components/molecules/ProductCard";
 import { ProductGrid } from "@/components/organisms/ProductGrid";
 import styled from "styled-components";
+import { useTranslations } from "next-intl";
 
 const NoProductsWrapper = styled.div`
   display: flex;
@@ -16,16 +17,18 @@ const NoProductsWrapper = styled.div`
 
 interface ProductListProps {
   products: Product[];
+  locale: string;
 }
 
-export default function ProductList({ products }: ProductListProps) {
+export default function ProductList({ products, locale }: ProductListProps) {
+  const t = useTranslations("ProductList");
   if (!products || products.length === 0) {
-    return <NoProductsWrapper>No products found.</NoProductsWrapper>;
+    return <NoProductsWrapper>{t("noProducts")}</NoProductsWrapper>;
   }
   return (
     <ProductGrid>
       {products.map((product) => (
-        <ProductCard key={product.id} product={product} />
+        <ProductCard key={product.id} product={product} locale={locale} />
       ))}
     </ProductGrid>
   );

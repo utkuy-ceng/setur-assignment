@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useTranslations } from "next-intl";
 
 const SelectWrapper = styled.div`
   display: flex;
@@ -24,6 +25,7 @@ const Select = styled.select`
 `;
 
 export default function FilterByCategory() {
+  const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
   const category = searchParams.get("category") || "";
@@ -47,9 +49,9 @@ export default function FilterByCategory() {
 
   return (
     <SelectWrapper>
-      <Label htmlFor="category">Filter by Category</Label>
+      <Label htmlFor="category">{t("filterByCategory")}</Label>
       <Select id="category" onChange={handleCategoryChange} value={category}>
-        <option value="">All Categories</option>
+        <option value="">{t("allCategories")}</option>
         {categories.map((cat) => (
           <option key={cat} value={cat}>
             {cat}

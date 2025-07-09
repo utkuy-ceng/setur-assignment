@@ -79,11 +79,12 @@ interface Product {
 
 interface ProductCardProps {
   product: Product;
+  locale: string;
 }
 
-export default function ProductCard({ product }: ProductCardProps) {
+export default function ProductCard({ product, locale }: ProductCardProps) {
   return (
-    <StyledLink href={`/product/${product.id}`}>
+    <StyledLink href={`/${locale}/product/${product.id}`}>
       <CardWrapper>
         <ProductImageContainer>
           <ProductImage

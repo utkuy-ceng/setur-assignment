@@ -2,6 +2,7 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import styled from "styled-components";
+import { useTranslations } from "next-intl";
 
 const SelectWrapper = styled.div`
   display: flex;
@@ -23,6 +24,7 @@ const Select = styled.select`
 `;
 
 export default function SortByPrice() {
+  const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
   const sort = searchParams.get("sort") || "";
@@ -39,11 +41,11 @@ export default function SortByPrice() {
 
   return (
     <SelectWrapper>
-      <Label htmlFor="sort">Sort by Price</Label>
+      <Label htmlFor="sort">{t("sortByPrice")}</Label>
       <Select id="sort" onChange={handleSortChange} value={sort}>
-        <option value="">Default</option>
-        <option value="asc">Price: Low to High</option>
-        <option value="desc">Price: High to Low</option>
+        <option value="">{t("defaultSort")}</option>
+        <option value="asc">{t("lowToHigh")}</option>
+        <option value="desc">{t("highToLow")}</option>
       </Select>
     </SelectWrapper>
   );

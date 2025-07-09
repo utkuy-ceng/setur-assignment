@@ -3,6 +3,7 @@
 import { useContext } from "react";
 import styled from "styled-components";
 import { ThemeContext } from "@/contexts/ThemeContext";
+import { useTranslations } from "next-intl";
 
 const ToggleButton = styled.button`
   background: ${({ theme }) => theme.primary};
@@ -16,10 +17,11 @@ const ToggleButton = styled.button`
 
 export default function ThemeToggleButton() {
   const { theme, toggleTheme } = useContext(ThemeContext);
+  const t = useTranslations("ThemeToggleButton");
 
   return (
     <ToggleButton onClick={toggleTheme}>
-      Switch to {theme === "light" ? "Dark" : "Light"} Mode
+      {theme === "light" ? t("switchToDark") : t("switchToLight")}
     </ToggleButton>
   );
 }

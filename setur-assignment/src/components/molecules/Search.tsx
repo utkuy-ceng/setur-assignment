@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import styled from "styled-components";
+import { useTranslations } from "next-intl";
 
 const SearchWrapper = styled.div`
   display: flex;
@@ -39,6 +40,7 @@ const SearchButton = styled.button`
 `;
 
 export default function Search() {
+  const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [query, setQuery] = useState(searchParams.get("q") || "");
@@ -55,17 +57,17 @@ export default function Search() {
 
   return (
     <SearchWrapper>
-      <Label htmlFor="search">Search by Title</Label>
+      <Label htmlFor="search">{t("search")}</Label>
       <InputWrapper>
         <Input
           id="search"
           type="text"
-          placeholder="Search..."
+          placeholder={t("search")}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleSearch()}
         />
-        <SearchButton onClick={handleSearch}>Search</SearchButton>
+        <SearchButton onClick={handleSearch}>{t("search")}</SearchButton>
       </InputWrapper>
     </SearchWrapper>
   );

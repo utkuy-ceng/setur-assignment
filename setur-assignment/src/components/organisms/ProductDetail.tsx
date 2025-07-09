@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Product } from "@/types";
 import { useContext } from "react";
 import { CartContext } from "@/contexts/CartContext";
+import { useTranslations } from "next-intl";
 
 const DetailWrapper = styled.div`
   display: grid;
@@ -74,6 +75,7 @@ interface ProductDetailProps {
 }
 
 export default function ProductDetail({ product }: ProductDetailProps) {
+  const t = useTranslations("ProductDetail");
   const cartContext = useContext(CartContext);
 
   if (!cartContext) {
@@ -98,11 +100,12 @@ export default function ProductDetail({ product }: ProductDetailProps) {
         <Title>{product.title}</Title>
         <Description>{product.description}</Description>
         <Rating>
-          ⭐️ {product.rating.rate.toFixed(1)} ({product.rating.count} reviews)
+          ⭐️ {product.rating.rate.toFixed(1)}{" "}
+          {t("reviews", { count: product.rating.count })}
         </Rating>
         <Price>${product.price.toFixed(2)}</Price>
         <AddToCartButton onClick={() => addToCart(product)}>
-          Add to Cart
+          {t("addToCart")}
         </AddToCartButton>
       </InfoWrapper>
     </DetailWrapper>

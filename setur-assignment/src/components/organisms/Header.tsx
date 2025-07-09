@@ -5,6 +5,9 @@ import Link from "next/link";
 import styled from "styled-components";
 import { CartContext } from "@/contexts/CartContext";
 import ThemeToggleButton from "../atoms/ThemeToggleButton";
+import { useTranslations } from "next-intl";
+import { usePathname } from "next/navigation";
+import LanguageSwitcher from "../atoms/LanguageSwitcher";
 
 const HeaderWrapper = styled.header`
   padding: 1rem 1.5rem;
@@ -41,6 +44,9 @@ const CartInfo = styled.div`
 `;
 
 export default function Header() {
+  const t = useTranslations("Header");
+  const pathname = usePathname();
+  const locale = pathname.split("/")[1] || "en";
   const cartContext = useContext(CartContext);
   const totalItems =
     cartContext?.cartItems.reduce((sum, item) => sum + item.quantity, 0) || 0;
@@ -48,11 +54,12 @@ export default function Header() {
   return (
     <HeaderWrapper>
       <LeftSection>
-        <Logo href="/">SeturStore</Logo>
+        <Logo href={`/${locale}`}>{t("title")}</Logo>
         <ThemeToggleButton />
       </LeftSection>
       <RightSection>
-        <CartInfo>Cart: {totalItems} item(s)</CartInfo>
+        <CartInfo>{t("cart", { count: totalItems })}</CartInfo>
+        <LanguageSwitcher />
       </RightSection>
     </HeaderWrapper>
   );

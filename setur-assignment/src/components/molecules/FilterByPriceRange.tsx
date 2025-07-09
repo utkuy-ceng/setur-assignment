@@ -3,6 +3,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import styled from "styled-components";
+import { useTranslations } from "next-intl";
 
 const PriceRangeWrapper = styled.div`
   display: flex;
@@ -41,6 +42,7 @@ const ApplyButton = styled.button`
 `;
 
 export default function FilterByPriceRange() {
+  const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
   const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
@@ -59,22 +61,22 @@ export default function FilterByPriceRange() {
 
   return (
     <PriceRangeWrapper>
-      <Label>Filter by Price</Label>
+      <Label>{t("filterByPrice")}</Label>
       <InputsWrapper>
         <Input
           type="number"
-          placeholder="Min"
+          placeholder={t("min")}
           value={minPrice}
           onChange={(e) => setMinPrice(e.target.value)}
         />
         <span>-</span>
         <Input
           type="number"
-          placeholder="Max"
+          placeholder={t("max")}
           value={maxPrice}
           onChange={(e) => setMaxPrice(e.target.value)}
         />
-        <ApplyButton onClick={handleApply}>Apply</ApplyButton>
+        <ApplyButton onClick={handleApply}>{t("apply")}</ApplyButton>
       </InputsWrapper>
     </PriceRangeWrapper>
   );

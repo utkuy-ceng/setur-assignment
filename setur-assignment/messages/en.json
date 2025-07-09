@@ -1,0 +1,35 @@
+{
+  "Header": {
+    "title": "SeturStore",
+    "cart": "Cart: {count} item(s)"
+  },
+  "FilterBar": {
+    "search": "Search by Title",
+    "filterByCategory": "Filter by Category",
+    "allCategories": "All Categories",
+    "sortByPrice": "Sort by Price",
+    "defaultSort": "Default",
+    "lowToHigh": "Price: Low to High",
+    "highToLow": "Price: High to Low",
+    "filterByPrice": "Filter by Price",
+    "min": "Min",
+    "max": "Max",
+    "apply": "Apply"
+  },
+  "ProductList": {
+    "noProducts": "No products found."
+  },
+  "Pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {page} of {totalPages}"
+  },
+  "ProductDetail": {
+    "reviews": "({count} reviews)",
+    "addToCart": "Add to Cart"
+  },
+  "ThemeToggleButton": {
+    "switchToDark": "Switch to Dark Mode",
+    "switchToLight": "Switch to Light Mode"
+  }
+}
