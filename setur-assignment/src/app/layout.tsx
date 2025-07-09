@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import StyledComponentsRegistry from "@/lib/registry";
+import { CartProvider } from "@/contexts/CartContext";
+import Header from "@/components/organisms/Header";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -15,7 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <CartProvider>
+            <Header />
+            {children}
+          </CartProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
