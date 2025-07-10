@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
 
@@ -45,18 +45,35 @@ export default function FilterByPriceRange() {
   const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [minPrice, setMinPrice] = useState(searchParams.get("minPrice") || "");
-  const [maxPrice, setMaxPrice] = useState(searchParams.get("maxPrice") || "");
+  const pathname = usePathname();
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  useEffect(() => {
+    const urlMinPrice = searchParams.get("minPrice") || "";
+    const urlMaxPrice = searchParams.get("maxPrice") || "";
+    setMinPrice(urlMinPrice);
+    setMaxPrice(urlMaxPrice);
+  }, [searchParams]);
 
   const handleApply = () => {
     const params = new URLSearchParams(searchParams);
-    if (minPrice) params.set("minPrice", minPrice);
+
+    if (minPrice.trim()) params.set("minPrice", minPrice.trim());
     else params.delete("minPrice");
 
-    if (maxPrice) params.set("maxPrice", maxPrice);
+    if (maxPrice.trim()) params.set("maxPrice", maxPrice.trim());
     else params.delete("maxPrice");
 
-    router.push(`?${params.toString()}`);
+    // Always reset to page 1 when applying filters
+    params.delete("page");
+
+    const newParamsString = params.toString();
+    const newUrl = `${pathname}${newParamsString ? `?${newParamsString}` : ""}`;
+
+    // Force navigation even if URL is the same
+    router.replace(newUrl);
+    router.refresh();
   };
 
   return (

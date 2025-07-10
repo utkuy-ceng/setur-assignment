@@ -27,7 +27,9 @@ async function getProducts(
   searchParams: SearchParams = {}
 ): Promise<{ products: Product[]; total: number }> {
   const offset = (page - 1) * PAGE_SIZE;
-  const res = await fetch(`https://fakestoreapi.com/products`);
+  const res = await fetch(`https://fakestoreapi.com/products`, {
+    cache: "no-store",
+  });
   if (!res.ok) throw new Error("Failed to fetch products");
   let products: Product[] = await res.json();
 

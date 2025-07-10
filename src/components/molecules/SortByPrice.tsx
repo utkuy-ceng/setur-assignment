@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
 
@@ -27,16 +27,27 @@ export default function SortByPrice() {
   const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const sort = searchParams.get("sort") || "";
 
   const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const params = new URLSearchParams(searchParams);
+
     if (e.target.value) {
       params.set("sort", e.target.value);
     } else {
       params.delete("sort");
     }
-    router.push(`?${params.toString()}`);
+
+    // Always reset to page 1 when changing sort
+    params.delete("page");
+
+    const newParamsString = params.toString();
+    const newUrl = `${pathname}${newParamsString ? `?${newParamsString}` : ""}`;
+
+    // Force navigation even if URL is the same
+    router.replace(newUrl);
+    router.refresh();
   };
 
   return (

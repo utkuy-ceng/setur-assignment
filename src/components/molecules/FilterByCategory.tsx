@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
@@ -28,6 +28,7 @@ export default function FilterByCategory() {
   const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const category = searchParams.get("category") || "";
   const [categories, setCategories] = useState<string[]>([]);
 
@@ -39,12 +40,22 @@ export default function FilterByCategory() {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const params = new URLSearchParams(searchParams);
+
     if (e.target.value) {
       params.set("category", e.target.value);
     } else {
       params.delete("category");
     }
-    router.push(`?${params.toString()}`);
+
+    // Always reset to page 1 when changing filters
+    params.delete("page");
+
+    const newParamsString = params.toString();
+    const newUrl = `${pathname}${newParamsString ? `?${newParamsString}` : ""}`;
+
+    // Force navigation even if URL is the same
+    router.replace(newUrl);
+    router.refresh();
   };
 
   return (

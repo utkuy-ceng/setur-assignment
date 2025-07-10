@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useTranslations } from "next-intl";
 
@@ -43,16 +43,32 @@ export default function Search() {
   const t = useTranslations("FilterBar");
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("q") || "");
+  const pathname = usePathname();
+  const [query, setQuery] = useState("");
+
+  useEffect(() => {
+    const urlQuery = searchParams.get("q") || "";
+    setQuery(urlQuery);
+  }, [searchParams]);
 
   const handleSearch = () => {
     const params = new URLSearchParams(searchParams);
-    if (query) {
-      params.set("q", query);
+
+    if (query.trim()) {
+      params.set("q", query.trim());
     } else {
       params.delete("q");
     }
-    router.push(`?${params.toString()}`);
+
+    // Always reset to page 1 when searching
+    params.delete("page");
+
+    const newParamsString = params.toString();
+    const newUrl = `${pathname}${newParamsString ? `?${newParamsString}` : ""}`;
+
+    // Force navigation even if URL is the same
+    router.replace(newUrl);
+    router.refresh();
   };
 
   return (
