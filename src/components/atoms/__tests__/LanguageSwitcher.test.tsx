@@ -18,6 +18,7 @@ Object.defineProperty(document, "cookie", {
 
 jest.mock("next/navigation", () => ({
   usePathname: () => "/en/some-page",
+  useSearchParams: () => new URLSearchParams("q=test&category=electronics"),
 }));
 
 jest.mock("next-intl", () => ({
@@ -39,6 +40,8 @@ describe("LanguageSwitcher", () => {
 
     // Check if cookie was set (this is a simplified check)
     expect(document.cookie).toContain("NEXT_LOCALE=tr");
-    expect(window.location.href).toBe("/tr/some-page");
+    expect(window.location.href).toBe(
+      "/tr/some-page?q=test&category=electronics"
+    );
   });
 });

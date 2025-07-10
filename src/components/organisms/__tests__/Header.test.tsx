@@ -4,6 +4,18 @@ import { ThemeProvider } from "../../../contexts/ThemeContext";
 import Header from "../Header";
 import { CartContext } from "../../../contexts/CartContext";
 
+// Mock next-intl
+jest.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
+  useLocale: () => "en",
+}));
+
+// Mock next/navigation
+jest.mock("next/navigation", () => ({
+  usePathname: () => "/en",
+  useSearchParams: () => new URLSearchParams(),
+}));
+
 describe("Header", () => {
   it("displays the correct number of items in the cart", () => {
     const cartItems = [
@@ -35,10 +47,11 @@ describe("Header", () => {
         </CartContext.Provider>
       </ThemeProvider>
     );
-    expect(screen.getByText("cart")).toBeInTheDocument();
+    // Check for cart count (2 + 3 = 5 items total)
+    expect(screen.getByText("5")).toBeInTheDocument();
   });
 
-  it("displays 0 items when the cart is empty", () => {
+  it("displays cart icon when the cart is empty", () => {
     render(
       <ThemeProvider>
         <CartContext.Provider value={{ cartItems: [], addToCart: () => {} }}>
@@ -46,6 +59,12 @@ describe("Header", () => {
         </CartContext.Provider>
       </ThemeProvider>
     );
-    expect(screen.getByText("cart")).toBeInTheDocument();
+    // Check for cart SVG presence by looking for the path element
+    const cartPath = screen
+      .getByRole("banner")
+      .querySelector('svg path[d*="M7 18c-1.1"]');
+    expect(cartPath).toBeInTheDocument();
+    // Ensure no badge is shown for empty cart
+    expect(screen.queryByText("0")).not.toBeInTheDocument();
   });
 });

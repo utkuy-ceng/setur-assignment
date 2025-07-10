@@ -4,30 +4,35 @@ import SortByPrice from "../SortByPrice";
 
 const mockRouter = {
   push: jest.fn(),
+  replace: jest.fn(),
+  refresh: jest.fn(),
 };
 
 jest.mock("next/navigation", () => ({
   useRouter: () => mockRouter,
   useSearchParams: () => new URLSearchParams(),
+  usePathname: () => "/en",
 }));
 
 describe("SortByPrice", () => {
   beforeEach(() => {
     mockRouter.push.mockClear();
+    mockRouter.replace.mockClear();
+    mockRouter.refresh.mockClear();
   });
 
-  it('calls router.push with "asc" when "Low to High" is selected', () => {
+  it('calls router.replace with "asc" when "Low to High" is selected', () => {
     render(<SortByPrice />);
     const select = screen.getByLabelText("sortByPrice");
     fireEvent.change(select, { target: { value: "asc" } });
-    expect(mockRouter.push).toHaveBeenCalledWith("?sort=asc");
+    expect(mockRouter.replace).toHaveBeenCalledWith("/en?sort=asc");
   });
 
-  it('calls router.push with "desc" when "High to Low" is selected', () => {
+  it('calls router.replace with "desc" when "High to Low" is selected', () => {
     render(<SortByPrice />);
     const select = screen.getByLabelText("sortByPrice");
     fireEvent.change(select, { target: { value: "desc" } });
-    expect(mockRouter.push).toHaveBeenCalledWith("?sort=desc");
+    expect(mockRouter.replace).toHaveBeenCalledWith("/en?sort=desc");
   });
 
   it('removes the sort parameter when "Default" is selected', () => {
@@ -37,6 +42,6 @@ describe("SortByPrice", () => {
     render(<SortByPrice />);
     const select = screen.getByLabelText("sortByPrice");
     fireEvent.change(select, { target: { value: "" } });
-    expect(mockRouter.push).toHaveBeenCalledWith("?");
+    expect(mockRouter.replace).toHaveBeenCalledWith("/en");
   });
 });

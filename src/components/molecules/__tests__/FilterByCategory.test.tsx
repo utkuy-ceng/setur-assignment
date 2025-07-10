@@ -4,11 +4,14 @@ import FilterByCategory from "../FilterByCategory";
 
 const mockRouter = {
   push: jest.fn(),
+  replace: jest.fn(),
+  refresh: jest.fn(),
 };
 
 jest.mock("next/navigation", () => ({
   useRouter: () => mockRouter,
   useSearchParams: () => new URLSearchParams(),
+  usePathname: () => "/en",
 }));
 
 global.fetch = jest.fn(() =>
@@ -20,6 +23,8 @@ global.fetch = jest.fn(() =>
 describe("FilterByCategory", () => {
   beforeEach(() => {
     mockRouter.push.mockClear();
+    mockRouter.replace.mockClear();
+    mockRouter.refresh.mockClear();
     (global.fetch as jest.Mock).mockClear();
   });
 
@@ -34,6 +39,6 @@ describe("FilterByCategory", () => {
     const select = screen.getByLabelText("filterByCategory");
     fireEvent.change(select, { target: { value: "electronics" } });
 
-    expect(mockRouter.push).toHaveBeenCalledWith("?category=electronics");
+    expect(mockRouter.replace).toHaveBeenCalledWith("/en?category=electronics");
   });
 });
