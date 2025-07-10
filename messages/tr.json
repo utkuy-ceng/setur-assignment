@@ -1,10 +1,10 @@
 {
   "Header": {
-    "title": "SeturMağaza",
+    "title": "Setur",
     "cart": "Sepet: {count} ürün"
   },
   "FilterBar": {
-    "search": "Başlığa Göre Ara",
+    "search": "Ara",
     "filterByCategory": "Kategoriye Göre Filtrele",
     "allCategories": "Tüm Kategoriler",
     "sortByPrice": "Fiyata Göre Sırala",

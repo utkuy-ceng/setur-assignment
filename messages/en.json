@@ -1,10 +1,10 @@
 {
   "Header": {
-    "title": "SeturStore",
+    "title": "Setur",
     "cart": "Cart: {count} item(s)"
   },
   "FilterBar": {
-    "search": "Search by Title",
+    "search": "Search",
     "filterByCategory": "Filter by Category",
     "allCategories": "All Categories",
     "sortByPrice": "Sort by Price",
