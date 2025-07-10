@@ -17,10 +17,10 @@ const Label = styled.label`
 
 const Select = styled.select`
   padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.border};
+  border: 1px solid var(--border);
   border-radius: 4px;
-  background-color: ${({ theme }) => theme.cardBg};
-  color: ${({ theme }) => theme.text};
+  background-color: var(--cardBg);
+  color: var(--text);
 `;
 
 export default function SortByPrice() {

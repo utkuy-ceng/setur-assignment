@@ -11,9 +11,9 @@ import LanguageSwitcher from "../atoms/LanguageSwitcher";
 
 const HeaderWrapper = styled.header`
   padding: 1rem 1.5rem;
-  background-color: ${({ theme }) => theme.cardBg};
-  border-bottom: 1px solid ${({ theme }) => theme.border};
-  color: ${({ theme }) => theme.text};
+  background-color: var(--cardBg);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,7 +24,7 @@ const Logo = styled(Link)`
   font-size: 1.5rem;
   font-weight: bold;
   text-decoration: none;
-  color: ${({ theme }) => theme.text};
+  color: var(--text);
 `;
 
 const LeftSection = styled.div`
@@ -55,10 +55,10 @@ export default function Header() {
     <HeaderWrapper>
       <LeftSection>
         <Logo href={`/${locale}`}>{t("title")}</Logo>
-        <ThemeToggleButton />
       </LeftSection>
       <RightSection>
         <CartInfo>{t("cart", { count: totalItems })}</CartInfo>
+        <ThemeToggleButton />
         <LanguageSwitcher />
       </RightSection>
     </HeaderWrapper>

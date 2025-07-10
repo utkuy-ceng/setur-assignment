@@ -3,8 +3,6 @@
 import React, { useState } from "react";
 import { useServerInsertedHTML } from "next/navigation";
 import { ServerStyleSheet, StyleSheetManager } from "styled-components";
-import { ThemeProvider } from "@/contexts/ThemeContext";
-import { GlobalStyles } from "@/styles/GlobalStyles";
 
 export default function StyledComponentsRegistry({
   children,
@@ -19,18 +17,11 @@ export default function StyledComponentsRegistry({
     return <>{styles}</>;
   });
 
-  const content = (
-    <ThemeProvider>
-      <GlobalStyles />
-      {children}
-    </ThemeProvider>
-  );
-
-  if (typeof window !== "undefined") return <>{content}</>;
+  if (typeof window !== "undefined") return <>{children}</>;
 
   return (
     <StyleSheetManager sheet={styledComponentsStyleSheet.instance}>
-      {content}
+      {children}
     </StyleSheetManager>
   );
 }

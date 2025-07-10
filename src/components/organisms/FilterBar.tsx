@@ -7,8 +7,8 @@ const FilterBarWrapper = styled.div`
   flex-wrap: wrap;
   gap: 1.5rem;
   padding: 1rem 1.5rem;
-  background-color: ${({ theme }) => theme.background};
-  border-bottom: 1px solid ${({ theme }) => theme.border};
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
   align-items: flex-end;
   transition: background-color 0.5s linear, border-bottom 0.5s linear;
 `;

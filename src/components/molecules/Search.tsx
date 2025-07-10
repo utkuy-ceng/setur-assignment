@@ -23,18 +23,18 @@ const InputWrapper = styled.div`
 
 const Input = styled.input`
   padding: 0.5rem;
-  border: 1px solid ${({ theme }) => theme.border};
+  border: 1px solid var(--border);
   border-radius: 4px 0 0 4px;
-  background-color: ${({ theme }) => theme.cardBg};
-  color: ${({ theme }) => theme.text};
+  background-color: var(--cardBg);
+  color: var(--text);
 `;
 
 const SearchButton = styled.button`
   padding: 0.5rem 1rem;
-  border: 1px solid ${({ theme }) => theme.primary};
+  border: 1px solid var(--primary);
   border-left: none;
-  background-color: ${({ theme }) => theme.primary};
-  color: ${({ theme }) => theme.buttonText};
+  background-color: var(--primary);
+  color: var(--buttonText);
   cursor: pointer;
   border-radius: 0 4px 4px 0;
 `;
