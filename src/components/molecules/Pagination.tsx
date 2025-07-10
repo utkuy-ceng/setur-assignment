@@ -13,8 +13,8 @@ const PaginationWrapper = styled.div`
 `;
 
 const Button = styled.button`
-  background-color: ${({ theme }) => theme.primary};
-  color: white;
+  background-color: var(--primary);
+  color: var(--buttonText);
   border: none;
   padding: 0.5rem 1rem;
   margin: 0 0.5rem;
@@ -53,11 +53,15 @@ export default function Pagination({
     router.push(`?${params.toString()}`);
   };
 
+  if (totalPages <= 1) {
+    return null;
+  }
+
   return (
     <PaginationWrapper>
       <Button
         onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
+        disabled={currentPage <= 1}
       >
         {t("previous")}
       </Button>
@@ -66,7 +70,7 @@ export default function Pagination({
       </PageInfo>
       <Button
         onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
+        disabled={currentPage >= totalPages}
       >
         {t("next")}
       </Button>
