@@ -120,3 +120,23 @@ All files                  |   73.68 |    59.49 |   81.25 |   74.82 |
   theme.ts                 |     100 |      100 |     100 |     100 |
 ---------------------------|---------|----------|---------|---------|-------------------
 ```
+
+## Lighthouse Performance Report
+
+The application has been optimized for performance, accessibility, best practices, and SEO. You can view the detailed Lighthouse audit report here:
+
+📊 **[View Lighthouse Performance Report](./lighthouse.pdf)**
+
+The report includes scores for:
+
+- **Performance**: Measures loading speed and runtime performance
+- **Accessibility**: Evaluates how accessible the app is to users with disabilities
+- **Best Practices**: Checks for modern web development best practices
+- **SEO**: Assesses search engine optimization factors
+
+Key optimizations implemented:
+
+- Next.js Image component for automatic image optimization
+- Server-side rendering for faster initial page loads
+- Responsive design for optimal mobile experience
+- Semantic HTML and proper ARIA labels for accessibility
