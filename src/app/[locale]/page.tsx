@@ -1,3 +1,4 @@
+import { unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
 import ProductList from "@/components/organisms/ProductList";
 import Pagination from "@/components/molecules/Pagination";
@@ -76,6 +77,7 @@ interface HomeProps {
 }
 
 export default async function Home({ params, searchParams }: HomeProps) {
+  unstable_setRequestLocale(params.locale);
   const locale = params.locale;
   const page = parseInt(searchParams?.page || "1", 10);
   const { products, total } = await getProducts(page, searchParams);

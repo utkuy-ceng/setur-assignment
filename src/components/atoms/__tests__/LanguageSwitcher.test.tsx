@@ -2,29 +2,43 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import LanguageSwitcher from "../LanguageSwitcher";
 
-const mockRouter = {
-  replace: jest.fn(),
-};
+// Mock window.location.href
+Object.defineProperty(window, "location", {
+  value: {
+    href: jest.fn(),
+  },
+  writable: true,
+});
+
+// Mock document.cookie
+Object.defineProperty(document, "cookie", {
+  writable: true,
+  value: "",
+});
 
 jest.mock("next/navigation", () => ({
-  useRouter: () => mockRouter,
   usePathname: () => "/en/some-page",
-  useSearchParams: () => new URLSearchParams("q=test"),
+}));
+
+jest.mock("next-intl", () => ({
+  useLocale: () => "en",
 }));
 
 describe("LanguageSwitcher", () => {
   beforeEach(() => {
-    mockRouter.replace.mockClear();
-    localStorage.clear();
+    // Reset the mocks before each test
+    (window.location.href as any) = jest.fn();
+    document.cookie = "";
   });
 
-  it("updates the URL and localStorage when a new language is selected", () => {
+  it("sets cookie and navigates to the correct URL when a new language is selected", () => {
     render(<LanguageSwitcher />);
     const select = screen.getByRole("combobox");
 
     fireEvent.change(select, { target: { value: "tr" } });
 
-    expect(localStorage.getItem("locale")).toBe("tr");
-    expect(mockRouter.replace).toHaveBeenCalledWith("/tr/some-page?q=test");
+    // Check if cookie was set (this is a simplified check)
+    expect(document.cookie).toContain("NEXT_LOCALE=tr");
+    expect(window.location.href).toBe("/tr/some-page");
   });
 });

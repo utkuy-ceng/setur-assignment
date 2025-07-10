@@ -1,6 +1,7 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useLocale } from "next-intl";
 import styled from "styled-components";
 
 const Select = styled.select`
@@ -12,34 +13,25 @@ const Select = styled.select`
 `;
 
 export default function LanguageSwitcher() {
-  const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentLocale = pathname.split("/")[1] || "en";
+  const locale = useLocale();
 
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newLocale = e.target.value;
 
-    // Replace the current locale in the pathname with the new locale
-    const pathWithoutLocale = pathname.replace(`/${currentLocale}`, "") || "/";
-    let newPath = `/${newLocale}${pathWithoutLocale}`;
+    // Set a cookie to remember the locale preference
+    document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
 
-    // Handle case where path is just '/'
-    if (newPath.endsWith("/") && newPath.length > 1) {
-      newPath = newPath.slice(0, -1);
-    }
+    // Create the new path by replacing the current locale
+    const pathWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
+    const newPath = `/${newLocale}${pathWithoutLocale}`;
 
-    const currentSearchParams = searchParams.toString();
-    if (currentSearchParams) {
-      newPath += `?${currentSearchParams}`;
-    }
-
-    window.localStorage.setItem("locale", newLocale);
-    router.replace(newPath);
+    // Navigate to the new locale URL
+    window.location.href = newPath;
   };
 
   return (
-    <Select onChange={handleChange} value={currentLocale}>
+    <Select onChange={handleChange} value={locale}>
       <option value="en">English</option>
       <option value="tr">Türkçe</option>
     </Select>
