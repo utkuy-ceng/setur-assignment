@@ -1,0 +1,35 @@
+{
+  "Header": {
+    "title": "Setur",
+    "cart": "Sepet: {count} ürün"
+  },
+  "FilterBar": {
+    "search": "Ara",
+    "filterByCategory": "Kategoriye Göre Filtrele",
+    "allCategories": "Tüm Kategoriler",
+    "sortByPrice": "Fiyata Göre Sırala",
+    "defaultSort": "Varsayılan",
+    "lowToHigh": "Fiyat: Düşükten Yükseğe",
+    "highToLow": "Fiyat: Yüksekten Düşüğe",
+    "filterByPrice": "Fiyata Göre Filtrele",
+    "min": "Min",
+    "max": "Maks",
+    "apply": "Uygula"
+  },
+  "ProductList": {
+    "noProducts": "Ürün bulunamadı."
+  },
+  "Pagination": {
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "page": "Sayfa {page} / {totalPages}"
+  },
+  "ProductDetail": {
+    "reviews": "({count} yorum)",
+    "addToCart": "Sepete Ekle"
+  },
+  "ThemeToggleButton": {
+    "dark": "Karanlık Mod",
+    "light": "Aydınlık Mod"
+  }
+}
