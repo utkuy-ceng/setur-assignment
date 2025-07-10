@@ -65,40 +65,58 @@ The project meets the requirement of >60% test coverage.
 
 ### Running Tests
 
-To run the tests and see the coverage report, use the following command:
+To run the tests and see the coverage report, you can use either of the following commands:
 
 ```sh
 npm run test:coverage
 ```
 
+or
+
+```sh
+npm test -- --coverage
+```
+
+Both commands will execute the tests and generate a coverage report in the console.
+
 ### Coverage Report
 
 ```
--------------------------|---------|----------|---------|---------|-------------------
-File                     | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
--------------------------|---------|----------|---------|---------|-------------------
-All files                |    60.1 |    49.15 |   59.18 |   61.93 |
- app                     |       0 |        0 |       0 |       0 |
-  layout.tsx             |       0 |      100 |       0 |       0 | 7-17
-  page.tsx               |       0 |        0 |       0 |       0 | 10-65
- app/product/[id]        |       0 |        0 |       0 |       0 |
-  page.tsx               |       0 |        0 |       0 |       0 | 13-50
- components/molecules    |   98.87 |    91.66 |     100 |   98.85 |
-  FilterByCategory.tsx   |   94.44 |       75 |     100 |   94.44 | 41
-  FilterByPriceRange.tsx |     100 |      100 |     100 |     100 |
-  Pagination.tsx         |     100 |       50 |     100 |     100 | 35
-  ProductCard.tsx        |     100 |      100 |     100 |     100 |
-  Search.tsx             |     100 |      100 |     100 |     100 |
-  SortByPrice.tsx        |     100 |      100 |     100 |     100 |
- components/organisms    |   26.92 |       50 |   28.57 |      24 |
-  FilterBar.tsx          |       0 |      100 |       0 |       0 | 5-16
-  Header.tsx             |     100 |      100 |     100 |     100 |
-  ProductDetail.tsx      |       0 |        0 |       0 |       0 | 9-104
-  ProductGrid.tsx        |       0 |      100 |     100 |       0 | 5
-  ProductList.tsx        |       0 |      100 |       0 |       0 | 12-15
- contexts                |     100 |    83.33 |     100 |     100 |
-  CartContext.tsx        |     100 |    83.33 |     100 |     100 | 38
- lib                     |       0 |        0 |       0 |       0 |
-  registry.tsx           |       0 |        0 |       0 |       0 | 12-22
--------------------------|---------|----------|---------|---------|-------------------
+---------------------------|---------|----------|---------|---------|-------------------
+File                       | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+---------------------------|---------|----------|---------|---------|-------------------
+All files                  |   73.68 |    59.49 |   81.25 |   74.82 |
+ app                       |       0 |        0 |       0 |       0 |
+  layout.tsx               |       0 |      100 |       0 |       0 | 6
+  page.tsx                 |       0 |        0 |       0 |       0 | 6-13
+ app/[locale]              |       0 |        0 |       0 |       0 |
+  layout.tsx               |       0 |      100 |       0 |       0 | 9-24
+  page.tsx                 |       0 |        0 |       0 |       0 | 12-85
+ app/[locale]/product/[id] |       0 |        0 |       0 |       0 |
+  page.tsx                 |       0 |        0 |       0 |       0 | 13-52
+ components/atoms          |     100 |       50 |     100 |     100 |
+  LanguageSwitcher.tsx     |     100 |       50 |     100 |     100 | 26
+  ThemeToggleButton.tsx    |     100 |       50 |     100 |     100 | 22
+ components/molecules      |   99.14 |    95.45 |     100 |   99.13 |
+  FilterByCategory.tsx     |   95.45 |       75 |     100 |   95.45 | 45
+  FilterByPriceRange.tsx   |     100 |      100 |     100 |     100 |
+  Pagination.tsx           |     100 |      100 |     100 |     100 |
+  ProductCard.tsx          |     100 |      100 |     100 |     100 |
+  Search.tsx               |     100 |      100 |     100 |     100 |
+  SortByPrice.tsx          |     100 |      100 |     100 |     100 |
+ components/organisms      |     100 |      100 |     100 |     100 |
+  FilterBar.tsx            |     100 |      100 |     100 |     100 |
+  Header.tsx               |     100 |      100 |     100 |     100 |
+  ProductDetail.tsx        |     100 |      100 |     100 |     100 |
+  ProductGrid.tsx          |     100 |      100 |     100 |     100 |
+  ProductList.tsx          |     100 |      100 |     100 |     100 |
+ contexts                  |   93.33 |     87.5 |     100 |   93.18 |
+  CartContext.tsx          |    92.3 |     87.5 |     100 |      92 | 32,43
+  ThemeContext.tsx         |   94.73 |     87.5 |     100 |   94.73 | 44
+ lib                       |       0 |        0 |       0 |       0 |
+  registry.tsx             |       0 |        0 |       0 |       0 | 14-31
+ styles                    |      40 |      100 |       0 |      40 |
+  GlobalStyles.ts          |       0 |      100 |       0 |       0 | 3-6
+  theme.ts                 |     100 |      100 |     100 |     100 |
+---------------------------|---------|----------|---------|---------|-------------------
 ```
