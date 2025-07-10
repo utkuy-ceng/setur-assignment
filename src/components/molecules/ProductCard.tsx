@@ -2,6 +2,7 @@
 
 import styled from "styled-components";
 import Link from "next/link";
+import Image from "next/image";
 
 const CardWrapper = styled.div`
   border: 1px solid var(--border);
@@ -26,12 +27,7 @@ const ProductImageContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-bottom: 1rem;
-`;
-
-const ProductImage = styled.img`
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  position: relative;
 `;
 
 const Title = styled.h3`
@@ -86,11 +82,12 @@ export default function ProductCard({ product, locale }: ProductCardProps) {
     <StyledLink href={`/${locale}/product/${product.id}`}>
       <CardWrapper>
         <ProductImageContainer>
-          <ProductImage
+          <Image
             src={product.image}
             alt={product.title}
             width={150}
             height={150}
+            style={{ objectFit: "contain" }}
           />
         </ProductImageContainer>
         <div>
